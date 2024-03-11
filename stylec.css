@@ -1,0 +1,19 @@
+.customBlue {
+    background-color: rgb(61, 58, 253);
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: -300px;
+    font-size: 30px;
+}
+
+.timerTop {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+
+}
