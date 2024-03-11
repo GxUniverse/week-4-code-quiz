@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>And You Call Yourself A Gamer?</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylec.css">
+</head>
+
+<body>
+       <!--highscore--> 
+    <h1>High Score: <span id="highScore">0</span></h1>
+
+    <!--timer-->
+
+    <div class="timerTop d-flex justify-content-center align-items-center">
+        <div id="timer" class="d-flex justify-content-center align-items-center bg-danger rounded-circle" style="
+            width: 100px; 
+            height: 100px;
+        ">
+            80
+        </div>
+    </div>
+
+    <div class="centered">
+        <div class="card customBlue text-center text-white" style="width: 36rem;">
+            <img class="card-img-top">
+            <div class="card-body" id="buttonContainer">
+                <p class="card-text" id="questions">Are You Ready to Start?</p>
+                <div id="answerInput" style="display: none;">
+                    <label for="answer">Your Answer:</label><br>
+                    <input type="text" id="answer">
+                </div>
+                <button id="beginButton" onclick="bigButton()" class="btn btn-primary" type="submit">BEGIN</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var timer = 80;
+        var startTimer;
+
+        //question timer//
+        var questionList = 0;
+        var highScore = localStorage.getItem('highScore') || 0;
+
+        var questions = [
+            "Are You Ready to Start?",
+            "What platform was Crash Bandicoot originally released on?",
+            "In which game does the player control Geralt of Rivia, a monster hunter for hire?",
+            "What company created Red Dead 2?",
+            "Which blockbuster game introduced the concept of bullet time, allowing players to slow down time during combat sequences?",
+            "What is the title of the massively popular battle royale game developed by Epic Games?",
+            "What is the best selling game of all time?",
+            "What is the best selling game on the Xbox?",
+            "What is the best selling game on all the playstation consoles?"
+            ];
+
+        var theAnswers = [
+            "",
+            "PLAYSTATION",
+            "THE WITCHER 3: GERALT OF RIVIA",
+            "ROCKSTAR",
+            "MAX PAYNE",
+            "FORTNITE",
+            "Minecraft",
+            "Halo 2",
+            "Grand Theft Auto V",
+        ];
+        function bigButton() {
+            if (timer === 80) {
+            alert ('Get Ready to Answer 8 questions about your favorite game, you will recieve 10 bonus seconds on the clock. Click ok to begin')}
+
+            if (!startTimer) {
+                startTimer = setInterval(decreaseTimer, 1000)
+            }
+            answerInput();
+            if (timer > 0) {
+            nextQuestion();
+            }
+         // Update the high score & show it
+       
+
+        function decreaseTimer() {
+
+            if (timer > 0) {
+                timer--;
+                document.getElementById('timer').innerText = timer;
+            } else {
+                
+        // game over alert and clears timer
+        clearInterval(startTimer);
+        alert('Game Over! Your time has run out. Refresh the page to play again');
+    }
+        }
+
+        function answerInput() {
+            var userAnswer = document.getElementById('answer').value.toUpperCase();
+            var rightAnswer = theAnswers[questionList].toUpperCase();
+            if (startTimer !== null) {
+            if (userAnswer === rightAnswer) {
+                timer += 10;
+            } else {
+                timer = Math.max(0, timer - 10);
+            }
+        }
+
+            var answerInputDiv = document.getElementById('answerInput');
+            answerInputDiv.style.display = 'block';
+
+            // Change the button text
+            var beginButton = document.getElementById('beginButton');
+            beginButton.innerText = 'Next Question';
+
+            var questionDisplay = document.getElementById('questions');
+            questionDisplay.innerText = questions[questionList];
+        }
+
+        function nextQuestion() {
+            if (questionList < questions.length - 1) {
+                questionList++;
+            } else {
+                questionList = 0;
+                clearInterval(startTimer);
+                 if (timer > highScore) {
+                highScore = timer;
+                localStorage.setItem('highScore', highScore);
+                document.getElementById('highScore').innerText = highScore; 
+            }
+        
+                alert('Congratulations! You Completed all the questions. Refresh the page to play again!');
+                return;
+            }
+            
+    }
+    
+
+            document.getElementById('questions').innerText = questions[questionList];
+            document.getElementById('answer').value = "";
+            document.getElementById('timer').innerText = timer;
+            document.getElementById('highScore').innerText = highScore;
+        }
+        decreaseTimer();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+</body>
+
+</html>
